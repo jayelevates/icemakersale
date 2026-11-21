@@ -4,6 +4,8 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { ORIGIN, SITE, WRITER, ISO, AS_OF, safe } from './lib/site.mjs';
 import pages from './content/pages.mjs';
+import { autolink } from './lib/links.mjs';
+import { ANCHORS } from './lib/anchors.mjs';
 import legal from './content/legal.mjs';
 
 const root = dirname(fileURLToPath(import.meta.url));
@@ -51,13 +53,19 @@ function graph(d) {
 const cup = `<svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path d="M4 11h18v5a8 8 0 0 1-8 8h-2a8 8 0 0 1-8-8z" fill="#2343B8"/><path d="M22 13h2.5a3 3 0 0 1 0 6H21" fill="none" stroke="#2343B8" stroke-width="2.4"/><path d="M2 26h24" stroke="#161A2E" stroke-width="2.4" stroke-linecap="round"/><path d="M10 3c-1.5 2 1.5 3 0 5M15 3c-1.5 2 1.5 3 0 5" stroke="#B8792E" stroke-width="2" fill="none" stroke-linecap="round"/></svg>`;
 
 const cube = `<svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><rect x="3" y="9" width="12" height="12" rx="5" fill="#EAF4F6"/><rect x="15" y="13" width="12" height="12" rx="5" fill="#9CC3CC"/><rect x="10" y="3" width="11" height="11" rx="5" fill="#fff"/></svg>`;
+const fmapCols = [['Deals', (p) => /sale|deals|black-friday/.test(p)], ['Best picks', (p) => /^best-/.test(p)], ['Reviews', (p) => /-review$/.test(p)], ['Guides and comparisons', (p) => true]];
+const fmap = (() => { const seen = new Set(); const cols = fmapCols.map(([t, f]) => { const items = pages.filter((x) => x.path && !x.legal && x.path !== 'guides' && !seen.has(x.path) && f(x.path)); items.forEach((x) => seen.add(x.path)); return [t, items.slice(0, 8)]; }); return `<div class="fmap">${cols.map(([t, items]) => `<div><b>${t}</b>${items.map((x) => `<a href="/${x.path}/">${safe(x.short || x.heading)}</a>`).join('')}</div>`).join('')}</div>`; })();
 function render(d) {
+  const unself = (h) => h.split(`<a class="rev" href="/${d.path}/">Read the full review</a>`).join('');
   const parts = d.parts || [];
   const chips = parts.length > 2 ? `<ul class="chipnav" aria-label="On this page">${parts.map((s) => `<li><a href="#${idOf(s[0])}">${safe(s[0])}</a></li>`).join('')}${d.asked?.length ? '<li><a href="#questions">Questions</a></li>' : ''}</ul>` : '';
-  const main = parts.map(([h, html]) => `<section class="${/class="(pick|tbl)/.test(html) ? 'wide' : ''}"><h2 id="${idOf(h)}">${safe(h)}</h2>${html}</section>`).join('');
+  const main0 = d.legal || d.path === 'guides' ? parts.map(([h, html]) => `<section class="${/class="(pick|tbl)/.test(html) ? 'wide' : ''}"><h2 id="${idOf(h)}">${safe(h)}</h2>${html}</section>`).join('') : autolink(parts.map(([h, html]) => `<section class="${/class="(pick|tbl)/.test(html) ? 'wide' : ''}"><h2 id="${idOf(h)}">${safe(h)}</h2>${html}</section>`).join(''), d.path, ANCHORS);
+  const main = unself(main0);
   const qa = d.asked?.length ? `<section class="qa"><h2 id="questions">Questions people ask</h2>${d.asked.map(([q, a]) => `<details><summary>${safe(q)}</summary><p>${a}</p></details>`).join('')}</section>` : '';
   const refs = d.refs?.length ? `<section class="refs"><h2 id="sources">Sources</h2><ol>${d.refs.map(([t, u]) => `<li><a href="${u}" rel="nofollow noopener">${safe(t)}</a></li>`).join('')}</ol></section>` : '';
-  const next = (d.next || []).map(find).filter(Boolean);
+  const next0 = (d.next || []).map(find).filter(Boolean);
+  const grp = (p) => fmapCols.findIndex(([, f]) => f(p || ''));
+  const next = d.legal || !d.path || d.path === 'guides' ? next0 : [...next0, ...pages.filter((x) => x.path && !x.legal && x.path !== 'guides' && x.path !== d.path && !next0.includes(x) && grp(x.path) === grp(d.path))].slice(0, 6);
   const more = next.length ? `<section class="more"><h2>Read next</h2><ul class="tiles">${next.map((n) => `<li><a href="${href(n.path)}"><b>${safe(n.short || n.heading)}</b><span>${safe(n.blurb || n.summary)}</span></a></li>`).join('')}</ul></section>` : '';
   const stamp = d.legal || d.nostamp ? '' : `<p class="stamp">By ${WRITER}. Updated <time datetime="${d.iso || ISO}">${d.asOf || AS_OF}</time>.</p>`;
   const answer = d.quick ? `<div class="answer"><b>Quick answer</b><p>${d.quick}</p></div>` : '';
@@ -92,7 +100,7 @@ ${graph(d)}
 <header class="bar"><div class="shell"><a class="mark" href="/">${cube}<span>icemakersale</span></a><nav class="menu" aria-label="Primary">${MENU.map(([t, p]) => `<a href="${href(p)}"${p === d.path ? ' aria-current="page"' : ''}>${t}</a>`).join('')}</nav></div></header>
 ${hero}
 <main class="shell page" id="content">${intro}${answer}${chips}<div class="flow">${main}</div>${qa}${refs}${more}</main>
-<footer class="base"><div class="shell"><strong>${SITE}</strong><nav aria-label="Footer"><a href="/guides/">All guides</a><a href="/how-we-choose/">How we choose</a><a href="/affiliate-disclosure/">Affiliate disclosure</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="/contact/">Contact</a></nav><p>We may earn a commission when you buy through links on this site, at no cost to you. Output figures are maker ratings, usually measured with cool room and water temperatures. Check the seller's page for current prices.</p></div></footer>
+<footer class="base"><div class="shell">${fmap}<strong>${SITE}</strong><nav aria-label="Footer"><a href="/guides/">All guides</a><a href="/how-we-choose/">How we choose</a><a href="/affiliate-disclosure/">Affiliate disclosure</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="/contact/">Contact</a></nav><p>We may earn a commission when you buy through links on this site, at no cost to you. Output figures are maker ratings, usually measured with cool room and water temperatures. Check the seller's page for current prices.</p></div></footer>
 </body>
 </html>`;
 }
