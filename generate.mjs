@@ -15,12 +15,16 @@ const abs = (p) => ORIGIN + href(p);
 const idOf = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 const style = readFileSync(join(root, 'lib/theme.css'), 'utf8').replace(/\s+/g, ' ').replace(/\s*([{};:,>])\s*/g, '$1');
 
-const MENU = [['Deals', ''], ['Nugget', 'best-nugget-ice-maker'], ['Countertop', 'best-countertop-ice-maker'], ['Portable', 'best-portable-ice-maker'], ['Undercounter', 'best-undercounter-ice-maker'], ['Cleaning', 'how-to-clean-portable-ice-maker'], ['All guides', 'guides']];
+const MENU = [['Deals', ''], ['Black Friday', 'ice-maker-black-friday-deals'], ['Nugget', 'best-nugget-ice-maker'], ['Countertop', 'best-countertop-ice-maker'], ['Portable', 'best-portable-ice-maker'], ['Undercounter', 'best-undercounter-ice-maker'], ['Cleaning', 'how-to-clean-portable-ice-maker'], ['All guides', 'guides']];
 const SHELF = [
-  ['Deals', ['', 'nugget-ice-maker-sale']],
-  ['Best ice makers', ['best-nugget-ice-maker', 'best-countertop-ice-maker', 'best-portable-ice-maker', 'best-undercounter-ice-maker', 'best-small-ice-maker', 'best-crushed-ice-maker']],
-  ['Reviews', ['ge-profile-opal-2-review', 'frigidaire-countertop-ice-maker-review', 'euhomy-nugget-ice-maker-review']],
-  ['Cleaning and care', ['best-ice-maker-cleaning-solution', 'how-to-clean-portable-ice-maker', 'how-to-clean-ge-opal-ice-maker']],
+  ['Deals', ['', 'ice-maker-black-friday-deals', 'nugget-ice-maker-sale', 'opal-nugget-ice-maker-sale']],
+  ['Best ice makers', ['best-ice-maker', 'best-nugget-ice-maker', 'best-cheap-nugget-ice-maker', 'best-countertop-ice-maker', 'best-portable-ice-maker', 'best-small-ice-maker', 'best-crushed-ice-maker', 'best-clear-ice-maker', 'countertop-ice-maker-with-dispenser', 'ice-maker-for-camping-and-rv', 'countertop-ice-maker-that-keeps-ice-frozen']],
+  ['Built-in and undercounter', ['best-undercounter-ice-maker', 'best-undercounter-nugget-ice-maker']],
+  ['Commercial', ['best-commercial-ice-maker', 'best-commercial-nugget-ice-maker', 'best-commercial-ice-maker-with-dispenser', 'manitowoc-ice-machine-review', 'hoshizaki-ice-machine-review']],
+  ['Reviews', ['ge-profile-opal-2-review', 'ge-opal-2-xl-review', 'frigidaire-countertop-ice-maker-review', 'frigidaire-gallery-nugget-ice-maker-review', 'euhomy-nugget-ice-maker-review', 'euhomy-countertop-ice-maker-review', 'brio-740i-review', 'kismile-nugget-ice-maker-review', 'cowsar-nugget-ice-maker-review', 'igloo-countertop-ice-maker-review', 'goveelife-smart-ice-maker-review']],
+  ['Shaved ice and refrigerators', ['best-shaved-ice-machine', 'best-refrigerator-with-nugget-ice', 'best-refrigerator-with-ice-maker']],
+  ['Cleaning and care', ['best-ice-maker-cleaning-solution', 'how-to-clean-portable-ice-maker', 'how-to-clean-ge-opal-ice-maker', 'how-to-descale-ge-opal', 'ge-opal-not-making-ice', 'how-to-clean-euhomy-ice-maker', 'how-to-clean-frigidaire-countertop-ice-maker', 'how-to-clean-commercial-ice-maker']],
+  ['Guides', ['what-is-nugget-ice']],
 ];
 for (const d of pages) if (!d.plain && !SHELF.some(([, l]) => l.includes(d.path))) throw new Error('Missing from guides page: ' + d.path);
 const shelved = SHELF.flatMap(([, l]) => l).length;
