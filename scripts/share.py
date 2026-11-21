@@ -34,15 +34,14 @@ def share(slug, title):
 for p in json.load(open(os.path.join(ROOT, 'scripts/share-list.json'))):
     share(p['slug'], p['title'])
 
-# Icons
-icon = Image.new('RGBA', (512, 512), INK); d = ImageDraw.Draw(icon)
-for x0, y0, c in [(80, 230, '#9CC3CC'), (250, 270, WHITE), (165, 110, '#EAF4F6')]:
-    d.rounded_rectangle([x0, y0, x0 + 190, y0 + 150], radius=70, fill=c)
+# Icons: drawn from static/icon.svg (the source of truth)
+import cairosvg, io
 st = os.path.join(ROOT, 'static')
-icon.save(os.path.join(st, 'icon-512.png'))
-icon.resize((192, 192)).save(os.path.join(st, 'icon-192.png'))
-icon.resize((180, 180)).save(os.path.join(st, 'apple-touch-icon.png'))
-icon.save(os.path.join(st, 'favicon.ico'), sizes=[(48, 48), (32, 32), (16, 16)])
-open(os.path.join(st, 'icon.svg'), 'w').write('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="96" fill="#0B3440"/><rect x="80" y="230" width="190" height="150" rx="70" fill="#9CC3CC"/><rect x="250" y="270" width="190" height="150" rx="70" fill="#fff"/><rect x="165" y="110" width="190" height="150" rx="70" fill="#EAF4F6"/></svg>')
+_svg = open(os.path.join(st, 'icon.svg')).read()
+_big = Image.open(io.BytesIO(cairosvg.svg2png(bytestring=_svg.encode(), output_width=1024, output_height=1024))).convert('RGBA')
+_big.resize((512, 512), Image.LANCZOS).save(os.path.join(st, 'icon-512.png'))
+_big.resize((192, 192), Image.LANCZOS).save(os.path.join(st, 'icon-192.png'))
+Image.open(io.BytesIO(cairosvg.svg2png(bytestring=_svg.replace('rx="104" ', '').encode(), output_width=180, output_height=180))).save(os.path.join(st, 'apple-touch-icon.png'))
+_big.resize((48, 48), Image.LANCZOS).save(os.path.join(st, 'favicon.ico'), sizes=[(48, 48), (32, 32), (16, 16)])
 json.dump({'name': 'Ice Maker Sale', 'short_name': 'Ice Maker Sale', 'icons': [{'src': '/icon-192.png', 'sizes': '192x192', 'type': 'image/png'}, {'src': '/icon-512.png', 'sizes': '512x512', 'type': 'image/png'}], 'theme_color': BLUE, 'background_color': BG, 'display': 'browser'}, open(os.path.join(st, 'site.webmanifest'), 'w'))
 print('share images and icons written')
