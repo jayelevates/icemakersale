@@ -17,7 +17,7 @@ export default [
     path: '', short: 'Ice maker deals', blurb: 'When ice makers go on sale and which ones are worth buying.',
     tab: 'Ice Maker Sale Guide 2026: Best Deals, When to Buy and What to Get',
     summary: 'When countertop, nugget and undercounter ice makers go on sale, how to spot a real deal, and the best ice makers to buy at every budget.',
-    heading: 'Ice maker sales, minus the guesswork',
+    heading: 'Ice maker sale: the best deals and when to buy',
     lede: 'Which ice makers are worth buying, when they actually get cheaper, and how to tell a real discount from a padded one.',
     hero: pile,
     quick: 'Ice maker discounts are biggest around Prime Day in July and Black Friday through Cyber Monday in November, with spring sales ahead of summer too. The GE Profile Opal is the nugget ice maker most worth waiting for, because its discounts are large. Budget bullet ice makers under $100 are cheap all year, so buy one when you need it.',
