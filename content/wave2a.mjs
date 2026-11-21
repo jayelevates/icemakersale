@@ -34,7 +34,7 @@ export default [
     list: ['GE Profile Opal 2.0 Ultra', 'GE Profile Opal 2.0', 'GE Profile Opal 2.0 XL', 'GE Profile Opal Mini'],
     parts: [
       ['The Opal lineup', compare('GE Profile Opal models', ['opalultra', 'opal2', 'opalxl', 'opalmini'], ['Daily output', 'Bin', 'Size', 'Price band'])],
-      ['Which Opal to buy on sale', `${pick('opalultra', 'Best Opal', 'Fastest output and a side tank, so you refill less.')}${pick('opalmini', 'Best for small kitchens', 'Opal ice in a body under 9 inches wide.')}${pick('opalxl', 'Best for big households', 'More ice on hand for families and parties.')}${pick('opal2', 'Buy only at a clear discount', 'Often priced close to the Ultra.')}`],
+      ['Which Opal to buy on sale', `${pick('opalultra', 'Best Opal', 'Fastest output and a side tank, so you refill less.')}${pick('opalmini', 'Best for small kitchens', 'Opal ice in a body under 9 inches wide.')}${pick('opalxl', 'Best for fewer refills', 'The Opal 2.0 with a 1-gallon side tank, for busy kitchens that hate refilling water.')}${pick('opal2', 'Buy only at a clear discount', 'Often priced close to the Ultra.')}`],
       ['Before you buy', `<ul><li>Use filtered water or the Opal scale-inhibiting filter; scale is the top cause of Opal problems.</li><li>Plan to clean it weekly; see <a href="/how-to-clean-ge-opal-ice-maker/">how to clean a GE Opal</a>.</li><li>Leave a few inches around the vents.</li></ul>`],
     ],
     asked: [

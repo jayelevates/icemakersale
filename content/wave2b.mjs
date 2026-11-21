@@ -85,17 +85,17 @@ export default [
   {
     path: 'ge-opal-2-xl-review', short: 'Opal 2.0 XL review', blurb: 'Is the bigger Opal worth it?', review: r('GE Profile Opal 2.0 XL', 'GE Profile', 8.2),
     tab: 'GE Opal 2.0 XL Review (2026): Is the Bigger Opal Worth It?',
-    summary: 'Our GE Profile Opal 2.0 XL review: what the XL adds over the standard Opal 2.0, how it compares with the Ultra, and who should buy it.',
+    summary: 'Our GE Profile Opal 2.0 XL review: what the 1-gallon XL side tank adds over the standard Opal 2.0, how it compares with the Ultra, and who should buy it.',
     heading: 'GE Opal 2.0 XL review',
-    lede: 'The Opal 2.0 XL is the larger-capacity version of GE\'s popular nugget ice maker.',
-    quick: 'The Opal 2.0 XL makes the same soft nugget ice as the Opal 2.0 but holds more, which suits families and frequent entertainers. It is often priced near the Opal 2.0 Ultra, which is faster. Compare both on the day you buy and pick whichever is cheaper for your needs.',
+    lede: 'The Opal 2.0 XL is GE\'s Opal 2.0 paired with a bigger, 1-gallon side water tank.',
+    quick: 'The Opal 2.0 XL is the standard Opal 2.0 (rated 38 lb a day, 3 lb bin) bundled with a 1-gallon XL side tank, so you refill water less often. The ice bin is the same size, so it does not store more ice. Buy it if refilling the water is your main annoyance; otherwise compare it with the Opal 2.0 Ultra on the day you buy.',
     list: ['GE Profile Opal 2.0 XL', 'GE Profile Opal 2.0 Ultra', 'GE Profile Opal 2.0'],
     parts: [
-      ['The verdict', pick('opalxl', 'Best for big households', 'More ice on hand without changing the Opal formula.')],
+      ['The verdict', pick('opalxl', 'Best for fewer refills', 'The same Opal 2.0 with a 1-gallon side tank, so it runs longer between refills.')],
       ['XL vs Ultra vs 2.0', compare('Opal models compared', ['opalxl', 'opalultra', 'opal2'], ['Daily output', 'Bin', 'Size', 'Price band'])],
       ['Care', `<p>Clean weekly and descale regularly. See <a href="/how-to-descale-ge-opal/">how to descale a GE Opal 2.0</a>.</p>`],
     ],
-    asked: [['Is the Opal XL worth it over the Opal 2.0?', 'If you often run out of ice, yes. Otherwise the Ultra or standard 2.0 is enough.']],
+    asked: [['Is the Opal XL worth it over the Opal 2.0?', 'Only if refilling water is the problem. The XL adds a 1-gallon side tank; daily output (38 lb) and the 3 lb bin are the same as the standard Opal 2.0.']],
     next: ['opal-nugget-ice-maker-sale', 'ge-profile-opal-2-review', 'how-to-descale-ge-opal'],
   },
   {
