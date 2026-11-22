@@ -19,6 +19,8 @@ const idOf = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g
 const style = readFileSync(join(root, 'lib/theme.css'), 'utf8').replace(/\s+/g, ' ').replace(/\s*([{};:,>])\s*/g, '$1');
 
 const MENU = [['Deals', ''], ['Black Friday', 'ice-maker-black-friday-deals'], ['Nugget', 'best-nugget-ice-maker'], ['Countertop', 'best-countertop-ice-maker'], ['Portable', 'best-portable-ice-maker'], ['Undercounter', 'best-undercounter-ice-maker'], ['Cleaning', 'how-to-clean-portable-ice-maker'], ['All guides', 'guides']];
+
+const stringHash = (s) => { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return Math.abs(h); };
 const SHELF = [
   ['Deals', ['', 'ice-maker-black-friday-deals', 'nugget-ice-maker-sale', 'opal-nugget-ice-maker-sale']],
   ['Best ice makers', ['best-ice-maker', 'best-nugget-ice-maker', 'best-cheap-nugget-ice-maker', 'best-countertop-ice-maker', 'best-portable-ice-maker', 'best-small-ice-maker', 'best-crushed-ice-maker', 'best-clear-ice-maker', 'countertop-ice-maker-with-dispenser', 'ice-maker-for-camping-and-rv', 'countertop-ice-maker-that-keeps-ice-frozen', 'best-ice-maker-for-home-bar', 'best-sphere-ice-maker', 'best-ice-maker-for-dorm', 'best-self-cleaning-ice-maker', 'best-freestanding-ice-maker', 'best-large-capacity-ice-maker', 'best-12v-ice-maker']],
@@ -73,7 +75,12 @@ function render(d) {
   const refs = d.refs?.length ? `<section class="refs"><h2 id="sources">Sources</h2><ol>${d.refs.map(([t, u]) => `<li><a href="${u}" rel="nofollow noopener">${safe(t)}</a></li>`).join('')}</ol></section>` : '';
   const next0 = (d.next || []).map(find).filter(Boolean);
   const grp = (p) => fmapCols.findIndex(([, f]) => f(p || ''));
-  const next = d.legal || !d.path || d.path === 'guides' ? next0 : [...next0, ...pages.filter((x) => x.path && !x.legal && x.path !== 'guides' && x.path !== d.path && !next0.includes(x) && grp(x.path) === grp(d.path))].slice(0, 6);
+  const allInCluster = pages.filter((x) => x.path && !x.legal && x.path !== 'guides' && grp(x.path) === grp(d.path));
+  const myIdx = Math.max(0, allInCluster.findIndex((x) => x.path === d.path));
+  const siblings = allInCluster.filter((x) => x.path !== d.path && !next0.includes(x));
+  const offset = siblings.length ? ((myIdx + 1) % siblings.length) : 0;
+  const rotated = siblings.length ? [...siblings.slice(offset), ...siblings.slice(0, offset)] : [];
+  const next = d.legal || !d.path || d.path === 'guides' ? next0 : [...next0, ...rotated].slice(0, 6);
   const more = next.length ? `<section class="more"><h2>Read next</h2><ul class="tiles">${next.map((n) => `<li><a href="${href(n.path)}"><b>${safe(n.short || n.heading)}</b><span>${safe(n.blurb || n.summary)}</span></a></li>`).join('')}</ul></section>` : '';
   // Cross-cluster strip: one representative page from each other SHELF group.
   const curGrp = SHELF.findIndex(([, l]) => l.includes(d.path));
