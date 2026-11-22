@@ -81,9 +81,9 @@ export default [
     ],
     asked: [
       ['Is the GE Opal 2.0 worth it?', 'Yes, for daily nugget ice drinkers who want a quiet, refined machine. Buy the Ultra version if the price gap is small.'],
-      ['How much ice does the Opal 2.0 make?', 'GE rates the Opal 2.0 at 24 pounds a day and the Opal 2.0 Ultra at up to 38 pounds a day, both with a 3-pound bin.'],
+      ['How much ice does the Opal 2.0 make?', 'Current GE listings rate both the Opal 2.0 and the Opal 2.0 Ultra at up to 38 pounds a day (some older Opal 2.0 listings say 24), both with a 3-pound bin.'],
       ['How often should you clean a GE Opal?', 'GE recommends cleaning once a week and descaling every few weeks, depending on water hardness.'],
-      ['What is the difference between the Opal 2.0 and Opal 2.0 Ultra?', 'The Ultra makes more ice (up to 38 vs 24 pounds a day), with a faster first batch, and includes a scale-inhibiting filter on most versions.'],
+      ['What is the difference between the Opal 2.0 and Opal 2.0 Ultra?', 'Both are rated up to 38 pounds a day on current GE listings. The main difference is that the Ultra includes a scale-inhibiting filter; check each listing for the exact version.'],
     ],
     refs: [['GE Appliances, Opal nugget ice makers', 'https://www.geappliances.com/ge/icemakers/opal-nugget-icemaker.htm'], ['GE Appliances, Opal 2.0 Ultra comparison sheet', 'https://products.geappliances.com/appliance/gea-compare/%26sku%3DXPIO13SWBB'], ['GE Appliances, Opal cleaning and descaling', 'https://products.geappliances.com/appliance/gea-support-search-content?contentId=000060634']],
     next: ['how-to-clean-ge-opal-ice-maker', 'nugget-ice-maker-sale', 'euhomy-nugget-ice-maker-review'],

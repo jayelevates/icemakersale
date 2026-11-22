@@ -3,7 +3,8 @@ import b from './pages2.mjs';
 import c from './wave2a.mjs';
 import d from './wave2b.mjs';
 import DEPTH from './depth/index.mjs';
-const ALL = [...a, ...b, ...c, ...d];
+import P3 from './p3/index.mjs';
+const ALL = [...a, ...b, ...c, ...d, ...P3];
 for (const p of ALL) {
   const d = DEPTH[p.path === '' ? '/' : '/' + String(p.path).replace(/^\/|\/$/g, '')];
   if (!d) continue;
