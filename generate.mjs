@@ -75,6 +75,12 @@ function render(d) {
   const grp = (p) => fmapCols.findIndex(([, f]) => f(p || ''));
   const next = d.legal || !d.path || d.path === 'guides' ? next0 : [...next0, ...pages.filter((x) => x.path && !x.legal && x.path !== 'guides' && x.path !== d.path && !next0.includes(x) && grp(x.path) === grp(d.path))].slice(0, 6);
   const more = next.length ? `<section class="more"><h2>Read next</h2><ul class="tiles">${next.map((n) => `<li><a href="${href(n.path)}"><b>${safe(n.short || n.heading)}</b><span>${safe(n.blurb || n.summary)}</span></a></li>`).join('')}</ul></section>` : '';
+  // Cross-cluster strip: one representative page from each other SHELF group.
+  const curGrp = SHELF.findIndex(([, l]) => l.includes(d.path));
+  const explore = d.path && !d.legal && d.path !== 'guides' && curGrp !== -1 ? (() => {
+    const picks = SHELF.map(([n, l], i) => i === curGrp ? null : l.map(find).find(x => x && x.path !== d.path) && { grp: n, page: l.map(find).find(x => x && x.path !== d.path) }).filter(Boolean);
+    return picks.length ? `<nav class="explore" aria-label="Explore other topics"><b>Explore other topics</b><ul>${picks.map(x => `<li><a href="/${x.page.path}/"><span>${safe(x.grp)}</span>${safe(x.page.short || x.page.heading)}</a></li>`).join('')}</ul></nav>` : '';
+  })() : '';
   const stamp = d.legal || d.nostamp ? '' : `<p class="stamp">By ${WRITER}. Updated <time datetime="${d.iso || ISO}">${d.asOf || AS_OF}</time>.</p>`;
   const answer = d.quick ? `<div class="answer"><b>Quick answer</b><p>${d.quick}</p></div>` : '';
   const ph = d.path ? pic(d) : null;
@@ -109,7 +115,7 @@ ${graph(d)}
 <a class="jump" href="#content">Skip to content</a>
 <header class="bar"><div class="shell"><a class="mark" href="/">${cube}<span>icemakersale</span></a><nav class="menu" aria-label="Primary">${MENU.map(([t, p]) => `<a href="${href(p)}"${p === d.path ? ' aria-current="page"' : ''}>${t}</a>`).join('')}</nav></div></header>
 ${hero}
-<main class="shell page" id="content">${intro}${answer}${chips}<div class="flow">${main}</div>${qa}${refs}${more}</main>
+<main class="shell page" id="content">${intro}${answer}${chips}<div class="flow">${main}</div>${qa}${refs}${more}${explore}</main>
 <footer class="base"><div class="shell">${fmap}<strong>${SITE}</strong><nav aria-label="Footer"><a href="/guides/">All guides</a><a href="/how-we-choose/">How we choose</a><a href="/affiliate-disclosure/">Affiliate disclosure</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="/contact/">Contact</a></nav><p>We may earn a commission when you buy through links on this site, at no cost to you. Output figures are maker ratings, usually measured with cool room and water temperatures. Check the seller's page for current prices.</p></div></footer>
 </body>
 </html>`;
