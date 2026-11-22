@@ -80,7 +80,7 @@ function render(d) {
   const ph = d.path ? pic(d) : null;
   const fig = ph ? `<figure class="shot">${imgTag(ph, '(max-width: 800px) 100vw, 760px')}</figure>` : '';
   const intro = d.path ? `<div class="intro"><p class="trail"><a href="/">Home</a> &rsaquo; ${!d.legal && d.path !== 'guides' ? '<a href="/guides/">Guides</a> &rsaquo; ' : ''}${safe(d.short || d.heading)}</p><h1>${safe(d.heading)}</h1>${d.lede ? `<p class="lede">${d.lede}</p>` : ''}${stamp}</div>${fig}` : '';
-  const hero = d.path ? '' : `<div class="hero"><div class="shell"><div><h1>${safe(d.heading)}</h1><p>${d.lede}</p><small>By ${WRITER}. Updated <time datetime="${ISO}">${AS_OF}</time>.</small></div>${IMG.home ? `<figure class="hero-shot">${imgTag(IMG.home, '(max-width: 900px) 100vw, 520px')}</figure>` : d.hero || ''}</div></div>`;
+  const hero = d.path ? '' : `<div class="hero"><div class="shell"><div class="meta"><h1>${safe(d.heading)}</h1><p>${d.lede}</p><small>By ${WRITER}. Updated <time datetime="${ISO}">${AS_OF}</time>.</small></div>${IMG.home ? `<figure class="hero-shot">${imgTag(IMG.home, '(max-width: 900px) 100vw, 520px')}</figure>` : d.hero || ''}</div></div>`;
   return `<!doctype html>
 <html lang="en-US">
 <head>
